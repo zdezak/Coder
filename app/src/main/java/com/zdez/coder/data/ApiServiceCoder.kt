@@ -18,7 +18,7 @@ private val retrofit = Retrofit.Builder()
 
 interface ApiServiceCoder {
     @GET("users")
-    fun getUsers(): Call<People>
+    fun getUsers(): Call<List<People>>
 }
 
 object ApiCoder {
