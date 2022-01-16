@@ -1,7 +1,6 @@
 package com.zdez.coder.main
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -9,7 +8,12 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
+import com.zdez.coder.data.PeopleDatabase
+import com.zdez.coder.navigation.Screen
 
 @Composable
 fun MainScreen(navController: NavController) {
@@ -17,21 +21,11 @@ fun MainScreen(navController: NavController) {
     val order = remember { mutableStateOf("firstName") }
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
-    val tabs = listOf<String>(
-        "all",
-        "android",
-        "ios",
-        "design",
-        "management",
-        "qa",
-        "back_office",
-        "frontend",
-        "hr",
-        "pr",
-        "backend",
-        "support",
-        "analytics"
-    )
+    val context = LocalContext.current
+    val dataSource = PeopleDatabase.getInstance(context).peopleDao
+    val viewModelFactory = MainViewModelFactory(dataSource)
+    val viewModel = ViewModelProvider(LocalViewModelStoreOwner.current!!,
+        viewModelFactory).get(MainViewModel::class.java)
 
     Scaffold(topBar = {
         TopAppBar(
@@ -83,7 +77,7 @@ fun MainScreen(navController: NavController) {
         ) {
             //TODO Tabs
             ScrollableTabRow(selectedTabIndex = selectedTabIndex.value) {
-                tabs.forEachIndexed() { index, tab ->
+                viewModel.tabs.forEachIndexed() { index, tab ->
                     Tab(
                         selected = index == selectedTabIndex.value,
                         onClick = { selectedTabIndex.value = index },
@@ -91,13 +85,24 @@ fun MainScreen(navController: NavController) {
                     )
                 }
             }
+            Column(modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+                if (!viewModel.isFailed.value) {
+                    Text(text = "Какой-то сверхразум все сломал")
+                    Text(text = "Постараемся быстро починить")
+                    TextButton(onClick = { viewModel.getPeople() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally)) {
+                        Text(text = "Попробовать снова")
+                    }
 
-            LazyColumn(verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.Start
-            ) {
-
+                } else {
+                    navController.navigate(Screen.People.route)
+                    viewModel.isFailed.value = false
+                }
             }
         }
-        //TODO Snackbars
     }
 }
