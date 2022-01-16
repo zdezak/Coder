@@ -10,10 +10,13 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
+import com.zdez.coder.R
 import com.zdez.coder.data.PeopleDatabase
 
 @Composable
@@ -49,7 +52,7 @@ fun PeopleScreen(navController: NavController) {
             actions = {
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded.value = true }) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Sorting")
+                        Icon(painterResource(id = R.drawable.ic_search_icon), contentDescription = "Sorting")
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
