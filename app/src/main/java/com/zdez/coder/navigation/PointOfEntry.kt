@@ -12,7 +12,7 @@ import com.zdez.coder.people.PeopleScreen
 import com.zdez.coder.profile.ProfileScreen
 
 @Composable
-fun PointOfEntry(){
+fun PointOfEntry() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.Main.route) {
         composable(Screen.Main.route) { MainScreen(navController = navController) }

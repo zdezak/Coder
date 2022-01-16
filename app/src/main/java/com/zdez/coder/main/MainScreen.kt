@@ -1,11 +1,7 @@
 package com.zdez.coder.main
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -13,7 +9,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
@@ -21,7 +16,7 @@ fun MainScreen(navController: NavController) {
     val expanded = remember { mutableStateOf(false) }
     val order = remember { mutableStateOf("firstName") }
     var textForSearch by remember { mutableStateOf("") }
-    val selectedTabIndex = remember { mutableStateOf(0)}
+    val selectedTabIndex = remember { mutableStateOf(0) }
     val tabs = listOf<String>(
         "all",
         "android",
@@ -45,7 +40,7 @@ fun MainScreen(navController: NavController) {
                     value = textForSearch,
                     onValueChange = { textForSearch = it },
                     modifier = Modifier.fillMaxWidth(1f),
-                    placeholder = { Text(text = "Введите имя, фамилию или тег")}
+                    placeholder = { Text(text = "Введите имя, фамилию или тег") }
                 )
             },
             navigationIcon = {
@@ -87,12 +82,12 @@ fun MainScreen(navController: NavController) {
                 .fillMaxHeight()
         ) {
             //TODO Tabs
-            ScrollableTabRow(selectedTabIndex =selectedTabIndex.value) {
-                tabs.forEachIndexed(){index, tab->
+            ScrollableTabRow(selectedTabIndex = selectedTabIndex.value) {
+                tabs.forEachIndexed() { index, tab ->
                     Tab(
                         selected = index == selectedTabIndex.value,
-                        onClick = { selectedTabIndex.value = index},
-                    text = {Text(text = tab)}
+                        onClick = { selectedTabIndex.value = index },
+                        text = { Text(text = tab) }
                     )
                 }
             }
