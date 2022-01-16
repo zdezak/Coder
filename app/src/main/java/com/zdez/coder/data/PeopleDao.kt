@@ -20,4 +20,7 @@ interface PeopleDao {
     @Query("SELECT * FROM people WHERE department = :key ORDER BY :order DESC")
     suspend fun getAllPeopleInDepartment(key: String, order: String): List<People>
 
+    @Query("DELETE FROM people")
+    suspend fun clear()
+
 }
