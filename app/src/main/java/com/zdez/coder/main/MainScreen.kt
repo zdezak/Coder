@@ -1,10 +1,10 @@
 package com.zdez.coder.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,6 +91,7 @@ fun MainScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
                 if (!viewModel.isFailed.value) {
+                    Image(Icons.Filled.Warning, contentDescription = "checkCircle")
                     Text(text = "Какой-то сверхразум все сломал")
                     Text(text = "Постараемся быстро починить")
                     TextButton(onClick = { viewModel.getPeople() },
