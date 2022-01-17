@@ -4,7 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +51,8 @@ fun MainScreen(navController: NavController) {
             actions = {
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded.value = true }) {
-                        Icon(painterResource(id = R.drawable.ic_search_icon), contentDescription = "Sorting")
+                        Icon(painterResource(id = R.drawable.ic_search_icon),
+                            contentDescription = "Sorting")
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
@@ -88,10 +90,13 @@ fun MainScreen(navController: NavController) {
                 }
             }
             Column(modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-                if (!viewModel.isFailed.value) {
-                    Image(Icons.Filled.Warning, contentDescription = "checkCircle")
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                if (viewModel.isSuccessed.value == true) {
+                    navController.navigate(Screen.People.route)
+                    viewModel.isSuccessed.value = null
+                } else {
+                    Image(Icons.Filled.Warning, contentDescription = "Warning")
                     Text(text = "Какой-то сверхразум все сломал")
                     Text(text = "Постараемся быстро починить")
                     TextButton(onClick = { viewModel.getPeople() },
@@ -100,10 +105,6 @@ fun MainScreen(navController: NavController) {
                             .align(Alignment.CenterHorizontally)) {
                         Text(text = "Попробовать снова")
                     }
-
-                } else {
-                    navController.navigate(Screen.People.route)
-                    viewModel.isFailed.value = false
                 }
             }
         }
