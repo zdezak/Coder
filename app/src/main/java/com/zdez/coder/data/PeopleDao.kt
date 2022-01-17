@@ -9,16 +9,16 @@ import androidx.room.Update
 interface PeopleDao {
 
     @Insert
-    suspend fun insertPeople(people: List<People>)
+    suspend fun insertPeople(people: List<User>)
 
     @Update
-    suspend fun update(people: List<People>)
+    suspend fun update(people: List<User>)
 
     @Query("SELECT * FROM people ORDER BY :order DESC")
-    suspend fun getAllPeople(order: String): List<People>
+    suspend fun getAllPeople(order: String): List<User>
 
     @Query("SELECT * FROM people WHERE department = :key ORDER BY :order DESC")
-    suspend fun getAllPeopleInDepartment(key: String, order: String): List<People>
+    suspend fun getAllPeopleInDepartment(key: String, order: String): List<User>
 
     @Query("DELETE FROM people")
     suspend fun clear()
