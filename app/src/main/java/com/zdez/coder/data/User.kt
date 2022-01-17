@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 @Entity(tableName = "people")
-data class People(
+data class User(
 
     @Json(name = "id")
     @PrimaryKey
