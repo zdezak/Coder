@@ -1,11 +1,12 @@
 package com.zdez.coder.people
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zdez.coder.data.People
+import com.zdez.coder.data.User
 import com.zdez.coder.data.PeopleDao
 import kotlinx.coroutines.launch
 
@@ -26,7 +27,7 @@ class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
         "analytics"
     )
 
-    var people by mutableStateOf(listOf<People>())
+    var people by mutableStateOf(listOf<User>())
         private set
 
     init {
@@ -35,13 +36,13 @@ class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
 
     fun getPeople(order: String) {
         viewModelScope.launch {
-            dataSource.getAllPeople(order)
+            people = dataSource.getAllPeople(order)
         }
     }
 
     fun getPeopleInDepartment(department: String, order: String) {
         viewModelScope.launch {
-            dataSource.getAllPeopleInDepartment(department, order)
+            people = dataSource.getAllPeopleInDepartment(department, order)
         }
     }
 }

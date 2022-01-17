@@ -1,13 +1,16 @@
 package com.zdez.coder.main
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zdez.coder.data.ApiCoder
-import com.zdez.coder.data.People
+import com.zdez.coder.data.User
 import com.zdez.coder.data.PeopleDao
+import com.zdez.coder.data.Users
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,35 +32,42 @@ class MainViewModel(val dataSource: PeopleDao) : ViewModel() {
         "support",
         "analytics"
     )
-    var people by mutableStateOf(listOf<People>())
+    var people by mutableStateOf(listOf<User>())
         private set
-    val isFailed = mutableStateOf(false)
+    val isSuccessed = mutableStateOf<Boolean?>(null)
 
     init {
-        viewModelScope.launch {
-            getPeople()
-            if (!isFailed.value) {
-                dataSource.insertPeople(people)
-            }
-        }
+        clearDatabase()
+        getPeople()
+        saveInDatabase()
     }
 
     fun getPeople() {
-        isFailed.value = true
+
         ApiCoder.retrofitService.getUsers()
-            .enqueue(object : Callback<List<People>> {
+            .enqueue(object : Callback<Users> {
                 override fun onResponse(
-                    call: Call<List<People>>,
-                    response: Response<List<People>>,
+                    call: Call<Users>,
+                    response: Response<Users>,
                 ) {
-                    if (response.code() == 200) {
-                        people = response.body()!!
-                    }
+                        people = response.body()!!.items
+                        saveInDatabase()
+                        isSuccessed.value = true
                 }
 
-                override fun onFailure(call: Call<List<People>>, t: Throwable) {
-                    isFailed.value = false
+                override fun onFailure(call: Call<Users>, t: Throwable) {
+                    isSuccessed.value = false
                 }
             })
+    }
+    private fun saveInDatabase(){
+
+        viewModelScope.launch {
+                dataSource.insertPeople(people)
+        }
+    }
+
+    private fun clearDatabase(){
+        viewModelScope.launch { dataSource.clear() }
     }
 }
