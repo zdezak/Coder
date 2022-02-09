@@ -45,7 +45,10 @@ fun PeopleScreen(navController: NavController) {
             title = {
                 TextField(
                     value = textForSearch,
-                    onValueChange = { textForSearch = it },
+                    onValueChange = {
+                        textForSearch = it
+                        viewModel.fieldSearch(textForSearch,order.value)
+                    },
                     modifier = Modifier.fillMaxWidth(1f),
                     placeholder = { Text(text = "Введите имя, фамилию или тег") }
                 )

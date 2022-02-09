@@ -20,6 +20,15 @@ interface PeopleDao {
     @Query("SELECT * FROM people WHERE department = :key ORDER BY :order DESC")
     suspend fun getAllPeopleInDepartment(key: String, order: String): List<User>
 
+    @Query("SELECT * FROM people WHERE firstName LIKE :search")
+    suspend fun getPeopleWithSimilarFirstName(search: String): List<User>
+
+    @Query("SELECT * FROM people WHERE lastName LIKE :search")
+    suspend fun getPeopleWithSimilarLastName(search: String): List<User>
+
+    @Query("SELECT * FROM people WHERE userTag LIKE :search")
+    suspend fun getPeopleWithSimilarUserTag(search: String): List<User>
+
     @Query("DELETE FROM people")
     suspend fun clear()
 

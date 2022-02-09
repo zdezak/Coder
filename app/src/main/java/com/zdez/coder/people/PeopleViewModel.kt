@@ -1,13 +1,12 @@
 package com.zdez.coder.people
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zdez.coder.data.User
 import com.zdez.coder.data.PeopleDao
+import com.zdez.coder.data.User
 import kotlinx.coroutines.launch
 
 class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
@@ -43,6 +42,20 @@ class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
     fun getPeopleInDepartment(department: String, order: String) {
         viewModelScope.launch {
             people = dataSource.getAllPeopleInDepartment(department, order)
+        }
+    }
+
+    fun fieldSearch(search: String, sort: String) {
+        viewModelScope.launch {
+            people = dataSource.getPeopleWithSimilarFirstName(search)
+            people.plus(dataSource.getPeopleWithSimilarLastName(search))
+            people.plus(dataSource.getPeopleWithSimilarUserTag(search))
+            people.sortedBy {
+                if (sort == "firstName")
+                    it.firstName
+                else
+                    it.birthday
+            }
         }
     }
 }
