@@ -1,7 +1,8 @@
-package com.zdez.coder.data
+package com.zdez.coder.data.source.remote
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.zdez.coder.data.Users
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory

@@ -43,5 +43,4 @@ data class User(
     @Json(name = "phone")
     @ColumnInfo(name = "phone")
     val phone: String,
-
-    )
+)

@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zdez.coder.data.PeopleDao
 import com.zdez.coder.data.User
+import com.zdez.coder.data.source.local.UsersDao
 import kotlinx.coroutines.launch
 
-class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
+class PeopleViewModel(val dataSource: UsersDao) : ViewModel() {
     val tabs = listOf<String>(
         "all",
         "android",
@@ -35,7 +35,7 @@ class PeopleViewModel(val dataSource: PeopleDao) : ViewModel() {
 
     fun getPeople(order: String) {
         viewModelScope.launch {
-            people = dataSource.getAllPeople(order)
+            people = dataSource.getUsers(order)
         }
     }
 

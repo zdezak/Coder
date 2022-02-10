@@ -1,12 +1,13 @@
-package com.zdez.coder.data
+package com.zdez.coder.data.source.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.zdez.coder.data.User
 
 @Dao
-interface PeopleDao {
+interface UsersDao {
 
     @Insert
     suspend fun insertPeople(people: List<User>)
@@ -15,7 +16,7 @@ interface PeopleDao {
     suspend fun update(people: List<User>)
 
     @Query("SELECT * FROM people ORDER BY :order DESC")
-    suspend fun getAllPeople(order: String): List<User>
+    suspend fun getUsers(order: String = "firstName"): List<User>
 
     @Query("SELECT * FROM people WHERE department = :key ORDER BY :order DESC")
     suspend fun getAllPeopleInDepartment(key: String, order: String): List<User>

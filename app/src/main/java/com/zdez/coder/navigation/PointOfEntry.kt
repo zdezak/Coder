@@ -22,8 +22,10 @@ fun PointOfEntry() {
                 type = NavType.StringType
             }
         )) { entry ->
-            ProfileScreen(id = entry.arguments!!.getString("id")!!,
-                navController = navController)
+            ProfileScreen(
+                id = entry.arguments!!.getString("id")!!,
+                navController = navController
+            )
         }
     }
 }

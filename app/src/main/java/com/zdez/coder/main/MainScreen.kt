@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import com.zdez.coder.R
-import com.zdez.coder.data.PeopleDatabase
+import com.zdez.coder.data.source.local.UserDatabase
 import com.zdez.coder.navigation.Screen
 
 @Composable
@@ -25,10 +25,12 @@ fun MainScreen(navController: NavController) {
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
-    val dataSource = PeopleDatabase.getInstance(context).peopleDao
+    val dataSource = UserDatabase.getInstance(context).usersDao
     val viewModelFactory = MainViewModelFactory(dataSource)
-    val viewModel = ViewModelProvider(LocalViewModelStoreOwner.current!!,
-        viewModelFactory).get(MainViewModel::class.java)
+    val viewModel = ViewModelProvider(
+        LocalViewModelStoreOwner.current!!,
+        viewModelFactory
+    ).get(MainViewModel::class.java)
 
     Scaffold(topBar = {
         TopAppBar(
@@ -46,13 +48,16 @@ fun MainScreen(navController: NavController) {
                     contentDescription = "Search textField",
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
-                        .fillMaxWidth(0.90f))
+                        .fillMaxWidth(0.90f)
+                )
             },
             actions = {
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded.value = true }) {
-                        Icon(painterResource(id = R.drawable.ic_search_icon),
-                            contentDescription = "Sorting")
+                        Icon(
+                            painterResource(id = R.drawable.ic_search_icon),
+                            contentDescription = "Sorting"
+                        )
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
@@ -75,7 +80,8 @@ fun MainScreen(navController: NavController) {
         )
     }
     ) {
-        Column(verticalArrangement = Arrangement.Top,
+        Column(
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxHeight()
         ) {
@@ -89,9 +95,11 @@ fun MainScreen(navController: NavController) {
                     )
                 }
             }
-            Column(modifier = Modifier.fillMaxSize(),
+            Column(
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 if (viewModel.isSuccessed.value == true) {
                     navController.navigate(Screen.People.route)
                     viewModel.isSuccessed.value = null
@@ -99,10 +107,12 @@ fun MainScreen(navController: NavController) {
                     Image(Icons.Filled.Warning, contentDescription = "Warning")
                     Text(text = "Какой-то сверхразум все сломал")
                     Text(text = "Постараемся быстро починить")
-                    TextButton(onClick = { viewModel.getPeople() },
+                    TextButton(
+                        onClick = { viewModel.getUsers() },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.CenterHorizontally)) {
+                            .align(Alignment.CenterHorizontally)
+                    ) {
                         Text(text = "Попробовать снова")
                     }
                 }

@@ -1,6 +1,5 @@
 package com.zdez.coder.people
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,14 +8,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -24,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
-import com.google.accompanist.glide.rememberGlidePainter
 import com.zdez.coder.R
-import com.zdez.coder.data.PeopleDatabase
+import com.zdez.coder.data.source.local.UserDatabase
 
 @Composable
 fun PeopleScreen(navController: NavController) {
@@ -35,10 +31,12 @@ fun PeopleScreen(navController: NavController) {
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
-    val dataSource = PeopleDatabase.getInstance(context).peopleDao
+    val dataSource = UserDatabase.getInstance(context).usersDao
     val viewModelFactory = PeopleViewModelFactory(dataSource)
-    val viewModel = ViewModelProvider(LocalViewModelStoreOwner.current!!,
-        viewModelFactory).get(PeopleViewModel::class.java)
+    val viewModel = ViewModelProvider(
+        LocalViewModelStoreOwner.current!!,
+        viewModelFactory
+    ).get(PeopleViewModel::class.java)
 
     Scaffold(topBar = {
         TopAppBar(
@@ -47,7 +45,7 @@ fun PeopleScreen(navController: NavController) {
                     value = textForSearch,
                     onValueChange = {
                         textForSearch = it
-                        viewModel.fieldSearch(textForSearch,order.value)
+                        viewModel.fieldSearch(textForSearch, order.value)
                     },
                     modifier = Modifier.fillMaxWidth(1f),
                     placeholder = { Text(text = "Введите имя, фамилию или тег") }
@@ -59,12 +57,16 @@ fun PeopleScreen(navController: NavController) {
                     contentDescription = "Search textField",
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
-                        .fillMaxWidth(0.90f))
+                        .fillMaxWidth(0.90f)
+                )
             },
             actions = {
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded.value = true }) {
-                        Icon(painterResource(id = R.drawable.ic_search_icon), contentDescription = "Sorting")
+                        Icon(
+                            painterResource(id = R.drawable.ic_search_icon),
+                            contentDescription = "Sorting"
+                        )
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
@@ -88,7 +90,8 @@ fun PeopleScreen(navController: NavController) {
         )
     }
     ) {
-        Column(verticalArrangement = Arrangement.Top,
+        Column(
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxSize()
         ) {
@@ -99,9 +102,9 @@ fun PeopleScreen(navController: NavController) {
                         selected = index == selectedTabIndex.value,
                         onClick = {
                             selectedTabIndex.value = index
-                            if(selectedTabIndex.value==0){
+                            if (selectedTabIndex.value == 0) {
                                 viewModel.getPeople(order.value)
-                            }else{
+                            } else {
                                 viewModel.getPeopleInDepartment(department = tab, order.value)
                             }
 
@@ -110,7 +113,8 @@ fun PeopleScreen(navController: NavController) {
                     )
                 }
             }
-            LazyColumn(verticalArrangement = Arrangement.Top,
+            LazyColumn(
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
                 items(viewModel.people) { user ->
@@ -121,9 +125,10 @@ fun PeopleScreen(navController: NavController) {
                         Image(
                             painterResource(id = R.drawable.ic_launcher_background),
                             //painter = rememberGlidePainter(user.avatarUrl),
-                            contentDescription = user.firstName+" "+user.lastName,
+                            contentDescription = user.firstName + " " + user.lastName,
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.clip(CircleShape)
+                            modifier = Modifier
+                                .clip(CircleShape)
                                 .border(1.dp, Color.Black, CircleShape)
                         )
                         Column() {

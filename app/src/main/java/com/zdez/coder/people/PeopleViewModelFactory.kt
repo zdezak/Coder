@@ -2,10 +2,10 @@ package com.zdez.coder.people
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.zdez.coder.data.PeopleDao
+import com.zdez.coder.data.source.local.UsersDao
 
 class PeopleViewModelFactory(
-    private val dataSource: PeopleDao,
+    private val dataSource: UsersDao,
 ) :
     ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
