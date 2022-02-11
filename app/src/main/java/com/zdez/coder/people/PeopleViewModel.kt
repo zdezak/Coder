@@ -10,27 +10,13 @@ import com.zdez.coder.data.source.local.UsersDao
 import kotlinx.coroutines.launch
 
 class PeopleViewModel(val dataSource: UsersDao) : ViewModel() {
-    val tabs = listOf<String>(
-        "all",
-        "android",
-        "ios",
-        "design",
-        "management",
-        "qa",
-        "back_office",
-        "frontend",
-        "hr",
-        "pr",
-        "backend",
-        "support",
-        "analytics"
-    )
+    val tabs = Tabs().listTabs
 
     var people by mutableStateOf(listOf<User>())
         private set
 
     init {
-        getPeople("firstName")
+        getPeople(UserFilterType.FirstName.filter)
     }
 
     fun getPeople(order: String) {
@@ -51,7 +37,7 @@ class PeopleViewModel(val dataSource: UsersDao) : ViewModel() {
             people.plus(dataSource.getPeopleWithSimilarLastName(search))
             people.plus(dataSource.getPeopleWithSimilarUserTag(search))
             people.sortedBy {
-                if (sort == "firstName")
+                if (sort == UserFilterType.FirstName.filter)
                     it.firstName
                 else
                     it.birthday

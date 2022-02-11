@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -27,7 +28,7 @@ import com.zdez.coder.data.source.local.UserDatabase
 @Composable
 fun PeopleScreen(navController: NavController) {
     val expanded = remember { mutableStateOf(false) }
-    val order = remember { mutableStateOf("firstName") }
+    val order = remember { mutableStateOf(UserFilterType.FirstName.filter) }
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
@@ -54,7 +55,7 @@ fun PeopleScreen(navController: NavController) {
             navigationIcon = {
                 Icon(
                     Icons.Filled.Search,
-                    contentDescription = "Search textField",
+                    contentDescription = stringResource(R.string.Search_Field),
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
                         .fillMaxWidth(0.90f)
@@ -65,24 +66,24 @@ fun PeopleScreen(navController: NavController) {
                     IconButton(onClick = { expanded.value = true }) {
                         Icon(
                             painterResource(id = R.drawable.ic_search_icon),
-                            contentDescription = "Sorting"
+                            contentDescription = stringResource(R.string.Sorting)
                         )
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = "firstName"
+                            order.value = UserFilterType.FirstName.filter
                             viewModel.getPeople(order.value)
                         }) {
-                            Text(text = "По алфавиту")
+                            Text(text = stringResource(R.string.Sorting_by_alphabet))
                         }
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = "birthday"
+                            order.value = UserFilterType.Birthday.filter
                             viewModel.getPeople(order.value)
                         }) {
-                            Text(text = "По дате рождения")
+                            Text(text = stringResource(R.string.Sorting_by_birthday))
                         }
                     }
                 }
