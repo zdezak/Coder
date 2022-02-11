@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Coder</string>
+    <string name="Sorting_by_alphabet">По алфавиту</string>
+    <string name="Sorting_by_birthday">По дате рождения</string>
+    <string name="Sorting">Сортировка</string>
+    <string name="Search_Field">Поле для поиска</string>
+    <string name="Warning">Внимание!</string>
+    <string name="load_error_begin">Какой-то сверхразум все сломал</string>
+    <string name="load_error_end">Постараемся быстро починить</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="search_tip">Введите имя, фамилию или тег</string>
 </resources>

@@ -28,11 +28,11 @@ import com.zdez.coder.data.source.local.UserDatabase
 @Composable
 fun PeopleScreen(navController: NavController) {
     val expanded = remember { mutableStateOf(false) }
-    val order = remember { mutableStateOf(UserFilterType.FirstName.filter) }
+    val order = remember { mutableStateOf(UserSortingType.FirstName.sorting) }
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
-    val dataSource = UserDatabase.getInstance(context).usersDao
+    val dataSource = UserDatabase.usersDao
     val viewModelFactory = PeopleViewModelFactory(dataSource)
     val viewModel = ViewModelProvider(
         LocalViewModelStoreOwner.current!!,
@@ -49,7 +49,7 @@ fun PeopleScreen(navController: NavController) {
                         viewModel.fieldSearch(textForSearch, order.value)
                     },
                     modifier = Modifier.fillMaxWidth(1f),
-                    placeholder = { Text(text = "Введите имя, фамилию или тег") }
+                    placeholder = { Text(text = stringResource(R.string.search_tip)) }
                 )
             },
             navigationIcon = {
@@ -73,14 +73,14 @@ fun PeopleScreen(navController: NavController) {
                         onDismissRequest = { expanded.value = false }) {
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = UserFilterType.FirstName.filter
+                            order.value = UserSortingType.FirstName.sorting
                             viewModel.getPeople(order.value)
                         }) {
                             Text(text = stringResource(R.string.Sorting_by_alphabet))
                         }
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = UserFilterType.Birthday.filter
+                            order.value = UserSortingType.Birthday.sorting
                             viewModel.getPeople(order.value)
                         }) {
                             Text(text = stringResource(R.string.Sorting_by_birthday))
