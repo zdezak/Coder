@@ -22,6 +22,6 @@ class UsersLocalDataSource internal constructor(
     }
 
     override suspend fun deleteAllUsers() {
-        TODO("Not yet implemented")
+        userDao.clear()
     }
 }

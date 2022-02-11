@@ -9,19 +9,13 @@ import androidx.lifecycle.viewModelScope
 import com.zdez.coder.R
 import com.zdez.coder.data.Result
 import com.zdez.coder.data.User
-import com.zdez.coder.data.Users
 import com.zdez.coder.data.source.UsersRepository
-import com.zdez.coder.data.source.remote.ApiCoder
-import com.zdez.coder.data.succeeded
 import com.zdez.coder.people.Tabs
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainViewModel(private val usersRepository: UsersRepository) : ViewModel() {
     val tabs = Tabs().listTabs
-    var users by mutableStateOf(listOf<User>())
+    private var users by mutableStateOf(listOf<User>())
         private set
     val isDataLoadingError = mutableStateOf<Boolean?>(null)
 
@@ -37,7 +31,7 @@ class MainViewModel(private val usersRepository: UsersRepository) : ViewModel() 
             if (usersResult is Result.Success) {
                 isDataLoadingError.value = false
                 viewModelScope.launch {
-                    result.value = filterItems(usersResult.data, currentFiltering)
+                    result.value = filterItems(usersResult.data)
                 }
             } else {
                 result.value = emptyList()
