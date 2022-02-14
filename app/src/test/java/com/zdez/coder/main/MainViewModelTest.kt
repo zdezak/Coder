@@ -14,7 +14,8 @@ class MainViewModelTest : TestCase() {
     fun setUpViewModel() {
         userRepository = FakeUsersRepository()
         val users = listOf(
-            User("0",
+            User(
+                "0",
                 "https:/temp.ru/0",
                 "Andrey",
                 "Smith",
@@ -22,8 +23,10 @@ class MainViewModelTest : TestCase() {
                 "ios",
                 "Senior",
                 "2020:01:14",
-                "+79009009009"),
-            User("1",
+                "+79009009009"
+            ),
+            User(
+                "1",
                 "https:/temp.ru/1",
                 "Michel",
                 "Smith",
@@ -31,14 +34,15 @@ class MainViewModelTest : TestCase() {
                 "android",
                 "Junior",
                 "2020:01:14",
-                "+79009009009")
+                "+79009009009"
+            )
         )
         userRepository.insertUsers(users)
         viewModel = MainViewModel(userRepository)
     }
 
     @Test
-    fun getUsers(){
+    fun getUsers() {
 
     }
 

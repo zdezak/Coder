@@ -1,10 +1,9 @@
 package com.zdez.coder.data.source
 
+import com.zdez.coder.data.Result
 import com.zdez.coder.data.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import com.zdez.coder.data.Result
-import com.zdez.coder.data.succeeded
 
 class DefaultUsersRepository(
     private val usersRemoteDataSource: UsersDataSource,
@@ -13,7 +12,7 @@ class DefaultUsersRepository(
 ) : UsersRepository {
     override suspend fun getUsers(order: String): Result<List<User>> {
         clearDatabase()
-        if (usersRemoteDataSource.getUsers() is Result.Success){
+        if (usersRemoteDataSource.getUsers() is Result.Success) {
             usersLocalDataSource.saveUsers((usersRemoteDataSource.getUsers() as Result.Success<List<User>>).data)
         }
         return usersLocalDataSource.getUsers()
@@ -31,7 +30,7 @@ class DefaultUsersRepository(
     }
 
 
-    override suspend fun searchUsers(search: String) {
+    override suspend fun searchUsers(search: String): Result<List<User>> {
         TODO("Not yet implemented")
     }
 

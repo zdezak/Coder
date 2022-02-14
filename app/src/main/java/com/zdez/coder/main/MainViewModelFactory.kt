@@ -3,7 +3,6 @@ package com.zdez.coder.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zdez.coder.data.source.UsersRepository
-import com.zdez.coder.data.source.local.UsersDao
 
 class MainViewModelFactory(
     private val usersRepository: UsersRepository

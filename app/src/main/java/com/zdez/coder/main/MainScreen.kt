@@ -107,7 +107,10 @@ fun MainScreen(navController: NavController) {
                     navController.navigate(Screen.People.route)
                     viewModel.isDataLoadingError.value = null
                 } else {
-                    Image(Icons.Filled.Warning, contentDescription = stringResource(R.string.Warning))
+                    Image(
+                        Icons.Filled.Warning,
+                        contentDescription = stringResource(R.string.Warning)
+                    )
                     Text(text = stringResource(R.string.load_error_begin))
                     Text(text = stringResource(R.string.load_error_end))
                     TextButton(

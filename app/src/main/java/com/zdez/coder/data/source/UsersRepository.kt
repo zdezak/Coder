@@ -1,7 +1,7 @@
 package com.zdez.coder.data.source
 
-import com.zdez.coder.data.User
 import com.zdez.coder.data.Result
+import com.zdez.coder.data.User
 
 interface UsersRepository {
 
@@ -11,7 +11,7 @@ interface UsersRepository {
 
     fun insertUsers(users: List<User>)
 
-    suspend fun searchUsers(search: String):  Result<List<User>>
+    suspend fun searchUsers(search: String): Result<List<User>>
 
     suspend fun clearDatabase()
 }
