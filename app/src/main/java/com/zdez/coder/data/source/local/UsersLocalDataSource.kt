@@ -21,6 +21,10 @@ class UsersLocalDataSource internal constructor(
         }
     }
 
+    override suspend fun saveUsers(users: List<User>){
+        userDao.insertPeople(users)
+    }
+
     override suspend fun deleteAllUsers() {
         userDao.clear()
     }

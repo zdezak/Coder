@@ -23,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import com.zdez.coder.R
-import com.zdez.coder.data.source.local.UserDatabase
+import com.zdez.coder.ServiceLocator
 
 @Composable
 fun PeopleScreen(navController: NavController) {
@@ -32,8 +32,8 @@ fun PeopleScreen(navController: NavController) {
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
-    val dataSource = UserDatabase.usersDao
-    val viewModelFactory = PeopleViewModelFactory(dataSource)
+    val usersRepository = ServiceLocator.provideUsersRepository(context)
+    val viewModelFactory = PeopleViewModelFactory(usersRepository)
     val viewModel = ViewModelProvider(
         LocalViewModelStoreOwner.current!!,
         viewModelFactory
@@ -74,14 +74,14 @@ fun PeopleScreen(navController: NavController) {
                         DropdownMenuItem(onClick = {
                             expanded.value = false
                             order.value = UserSortingType.FirstName.sorting
-                            viewModel.getPeople(order.value)
+                            viewModel.getUsers(order.value)
                         }) {
                             Text(text = stringResource(R.string.Sorting_by_alphabet))
                         }
                         DropdownMenuItem(onClick = {
                             expanded.value = false
                             order.value = UserSortingType.Birthday.sorting
-                            viewModel.getPeople(order.value)
+                            viewModel.getUsers(order.value)
                         }) {
                             Text(text = stringResource(R.string.Sorting_by_birthday))
                         }
@@ -104,7 +104,7 @@ fun PeopleScreen(navController: NavController) {
                         onClick = {
                             selectedTabIndex.value = index
                             if (selectedTabIndex.value == 0) {
-                                viewModel.getPeople(order.value)
+                                viewModel.getUsers(order.value)
                             } else {
                                 viewModel.getPeopleInDepartment(department = tab, order.value)
                             }
@@ -118,7 +118,7 @@ fun PeopleScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                items(viewModel.people) { user ->
+                items(viewModel.users) { user ->
                     Card {
 
                     }

@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import com.zdez.coder.R
-import com.zdez.coder.data.source.local.UserDatabase
+import com.zdez.coder.ServiceLocator
 import com.zdez.coder.navigation.Screen
 import com.zdez.coder.people.UserSortingType
 
@@ -27,8 +27,9 @@ fun MainScreen(navController: NavController) {
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
     val context = LocalContext.current
-    val dataSource = UserDatabase.getInstance(context).usersDao
-    val viewModelFactory = MainViewModelFactory(dataSource)
+    val usersRepository = ServiceLocator.provideUsersRepository(context)
+
+    val viewModelFactory = MainViewModelFactory(usersRepository)
     val viewModel = ViewModelProvider(
         LocalViewModelStoreOwner.current!!,
         viewModelFactory
@@ -110,7 +111,7 @@ fun MainScreen(navController: NavController) {
                     Text(text = stringResource(R.string.load_error_begin))
                     Text(text = stringResource(R.string.load_error_end))
                     TextButton(
-                        onClick = { viewModel.getUsers() },
+                        onClick = { viewModel.downloadUsers() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .align(Alignment.CenterHorizontally)

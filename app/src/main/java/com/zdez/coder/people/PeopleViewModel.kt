@@ -3,61 +3,60 @@ package com.zdez.coder.people
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zdez.coder.R
 import com.zdez.coder.data.Result
 import com.zdez.coder.data.User
-import com.zdez.coder.data.source.local.UsersDao
+import com.zdez.coder.data.source.UsersRepository
 import kotlinx.coroutines.launch
 
-class PeopleViewModel(val dataSource: UsersDao) : ViewModel() {
-    private var currentFiltering = TasksFilterType.ALL_TASKS
+class PeopleViewModel(private val usersRepository: UsersRepository) : ViewModel() {
+    private var currentFiltering = UserSortingType.FirstName.sorting
     val tabs = Tabs().listTabs
-
-    var people by mutableStateOf(listOf<User>())
+    val isDataLoadingError = mutableStateOf<Boolean?>(null)
+    var users by mutableStateOf(listOf<User>())
         private set
 
     init {
-        getPeople(UserSortingType.FirstName.sorting)
+        getUsers(UserSortingType.FirstName.sorting)
     }
 
-    fun getPeople(order: String) {
+    fun getUsers(order: String) {
         viewModelScope.launch {
-            people = dataSource.getUsers(order)
-        }
-    }
-
-    fun getUsers(usersResult: Result<List<User>>) {
-        val result = MutableLiveData<List<User>>()
-        viewModelScope.launch {
-            if (usersResult is Result.Success) {
+            val result = usersRepository.getUsers(order)
+            if (result is Result.Success) {
                 isDataLoadingError.value = false
-                viewModelScope.launch {
-                    result.value = filterItems(usersResult.data, currentFiltering)
-                }
+                users = result.data
             } else {
-                result.value = emptyList()
-                showSnackbarMessage(R.string.loading_tasks_error)
                 isDataLoadingError.value = true
+                users = emptyList()
             }
-            return result
         }
     }
 
     fun getPeopleInDepartment(department: String, order: String) {
         viewModelScope.launch {
-            people = dataSource.getAllPeopleInDepartment(department, order)
+            val result = usersRepository.getUsersInDepartment(department, order)
+            if (result is Result.Success) {
+                isDataLoadingError.value = false
+                users = result.data
+            } else {
+                isDataLoadingError.value = true
+            }
+
         }
     }
 
     fun fieldSearch(search: String, sort: String) {
         viewModelScope.launch {
-            people = dataSource.getPeopleWithSimilarFirstName(search)
-            people.plus(dataSource.getPeopleWithSimilarLastName(search))
-            people.plus(dataSource.getPeopleWithSimilarUserTag(search))
-            people.sortedBy {
+            val result = usersRepository.searchUsers(search)
+            if (result is Result.Success) {
+                users = result.data
+                isDataLoadingError.value = false
+            } else {
+                isDataLoadingError.value = true
+            }
+            users.sortedBy {
                 if (sort == UserSortingType.FirstName.sorting)
                     it.firstName
                 else

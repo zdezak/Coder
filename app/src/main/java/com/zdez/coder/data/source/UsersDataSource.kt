@@ -7,5 +7,7 @@ interface UsersDataSource {
 
     suspend fun getUsers(): Result<List<User>>
 
+    suspend fun saveUsers(users: List<User>)
+
     suspend fun deleteAllUsers()
 }

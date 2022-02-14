@@ -11,7 +11,7 @@ interface UsersRepository {
 
     fun insertUsers(users: List<User>)
 
-    suspend fun searchUsers(search: String)
+    suspend fun searchUsers(search: String):  Result<List<User>>
 
     suspend fun clearDatabase()
 }

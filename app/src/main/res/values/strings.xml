@@ -9,4 +9,5 @@
     <string name="load_error_end">Постараемся быстро починить</string>
     <string name="try_again">Попробовать снова</string>
     <string name="search_tip">Введите имя, фамилию или тег</string>
+    <string name="loading_tasks_error">Ошибка при загрузке данных</string>
 </resources>
