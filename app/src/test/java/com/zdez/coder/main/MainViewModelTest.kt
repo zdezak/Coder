@@ -1,14 +1,25 @@
 package com.zdez.coder.main
 
+import com.zdez.coder.MainCoroutineRule
 import com.zdez.coder.data.FakeUsersRepository
 import com.zdez.coder.data.User
 import junit.framework.TestCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class MainViewModelTest : TestCase() {
     private lateinit var viewModel: MainViewModel
     private lateinit var userRepository: FakeUsersRepository
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUpViewModel() {
@@ -42,9 +53,16 @@ class MainViewModelTest : TestCase() {
     }
 
     @Test
-    fun getUsers() {
-
+    fun getUsersSuccess() {
+        viewModel.downloadUsers()
+        assertEquals(viewModel.isDataLoadingError,false)
     }
 
+    @Test
+    fun getUsersError(){
+        viewModel.downloadUsers()
+        userRepository.setReturnError(true)
+        assertEquals(viewModel.isDataLoadingError,true)
+    }
 
 }
