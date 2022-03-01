@@ -27,11 +27,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
         useIR = true
     }
     buildFeatures {
@@ -51,14 +52,14 @@ android {
 dependencies {
 
     implementation "androidx.core:core-ktx:$coreKtx_version"
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "androidx.activity:activity-compose:$activityComposeVersion"
 
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtx_version"
 
     //UI
     implementation "androidx.compose.material3:material3:$material3_version"
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
@@ -67,14 +68,14 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$navigationCompose_version"
 
     //Network
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiKotlinVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$converterMoshiVersion"
 
     //Database
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-    implementation 'androidx.arch.core:core-testing:2.1.0'
+    implementation "androidx.arch.core:core-testing:$coreTestingVersion"
     kapt "androidx.room:room-compiler:$room_version"
 
     //Asynchronous
@@ -82,12 +83,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     //show image by URL
-    implementation "com.google.accompanist:accompanist-glide:0.10.0"
+    implementation "com.google.accompanist:accompanist-glide:$accompanistGlideVersion"
 
     //Test
     testImplementation "junit:junit:$junit_version"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.test.ext:junit:$junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 }

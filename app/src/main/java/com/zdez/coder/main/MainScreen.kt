@@ -33,7 +33,7 @@ fun MainScreen(navController: NavController) {
     val viewModel = ViewModelProvider(
         LocalViewModelStoreOwner.current!!,
         viewModelFactory
-    ).get(MainViewModel::class.java)
+    )[MainViewModel::class.java]
 
     Scaffold(topBar = {
         TopAppBar(
@@ -90,7 +90,7 @@ fun MainScreen(navController: NavController) {
         ) {
             //TODO Tabs
             ScrollableTabRow(selectedTabIndex = selectedTabIndex.value) {
-                viewModel.tabs.forEachIndexed() { index, tab ->
+                viewModel.tabs.forEachIndexed { index, tab ->
                     Tab(
                         selected = index == selectedTabIndex.value,
                         onClick = { selectedTabIndex.value = index },
