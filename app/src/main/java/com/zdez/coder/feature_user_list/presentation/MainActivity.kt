@@ -15,8 +15,9 @@ import com.zdez.coder.feature_user_list.presentation.loading.LoadingScreen
 import com.zdez.coder.feature_user_list.presentation.util.Screen
 import com.zdez.coder.feature_user_list.presentation.profile.ProfileScreen
 import com.zdez.coder.feature_user_list.presentation.users.UsersScreen
+import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
