@@ -12,9 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.compose.AppTheme
 import com.zdez.coder.feature_user_list.presentation.loading.LoadingScreen
-import com.zdez.coder.feature_user_list.presentation.util.Screen
 import com.zdez.coder.feature_user_list.presentation.profile.ProfileScreen
 import com.zdez.coder.feature_user_list.presentation.users.UsersScreen
+import com.zdez.coder.feature_user_list.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +26,8 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = Screen.Loading.route) {
+                    NavHost(navController = navController,
+                        startDestination = Screen.Loading.route) {
                         composable(Screen.Loading.route) { LoadingScreen(navController = navController) }
                         composable(Screen.People.route) { UsersScreen(navController = navController) }
                         composable(Screen.Profile.route + "/{id}", arguments = listOf(

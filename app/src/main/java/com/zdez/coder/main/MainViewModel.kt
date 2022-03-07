@@ -1,15 +1,13 @@
 package com.zdez.coder.main
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zdez.coder.data.ApiCoder
-import com.zdez.coder.data.User
 import com.zdez.coder.data.PeopleDao
+import com.zdez.coder.data.User
 import com.zdez.coder.data.Users
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -50,9 +48,9 @@ class MainViewModel(val dataSource: PeopleDao) : ViewModel() {
                     call: Call<Users>,
                     response: Response<Users>,
                 ) {
-                        people = response.body()!!.items
-                        saveInDatabase()
-                        isSuccessed.value = true
+                    people = response.body()!!.items
+                    saveInDatabase()
+                    isSuccessed.value = true
                 }
 
                 override fun onFailure(call: Call<Users>, t: Throwable) {
@@ -60,14 +58,15 @@ class MainViewModel(val dataSource: PeopleDao) : ViewModel() {
                 }
             })
     }
-    private fun saveInDatabase(){
+
+    private fun saveInDatabase() {
 
         viewModelScope.launch {
-                dataSource.insertPeople(people)
+            dataSource.insertPeople(people)
         }
     }
 
-    private fun clearDatabase(){
+    private fun clearDatabase() {
         viewModelScope.launch { dataSource.clear() }
     }
 }
