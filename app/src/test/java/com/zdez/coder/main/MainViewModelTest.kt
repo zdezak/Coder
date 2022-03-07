@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModelTest : TestCase() {
     private lateinit var viewModel: MainViewModel
     private lateinit var userRepository: FakeUsersRepository
@@ -20,6 +21,7 @@ class MainViewModelTest : TestCase() {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
 
     @Before
     fun setUpViewModel() {
@@ -49,7 +51,7 @@ class MainViewModelTest : TestCase() {
             )
         )
         userRepository.insertUsers(users)
-        viewModel = MainViewModel(userRepository)
+        viewModel = MainViewModel(userRepository, mainCoroutineRule.dispatcher)
     }
 
     @Test

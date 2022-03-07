@@ -12,8 +12,9 @@ class DefaultUsersRepository(
 ) : UsersRepository {
     override suspend fun getUsers(order: String): Result<List<User>> {
         clearDatabase()
-        if (usersRemoteDataSource.getUsers() is Result.Success) {
-            usersLocalDataSource.saveUsers((usersRemoteDataSource.getUsers() as Result.Success<List<User>>).data)
+        val result = usersRemoteDataSource.getUsers()
+        if (result is Result.Success) {
+            usersLocalDataSource.saveUsers(result.data)
         }
         return usersLocalDataSource.getUsers()
     }
@@ -22,16 +23,16 @@ class DefaultUsersRepository(
         department: String,
         order: String
     ): Result<List<User>> {
-        TODO("Not yet implemented")
+        return Result.Success(usersLocalDataSource.getUsersInDepartment(department, order))
     }
 
-    override fun insertUsers(users: List<User>) {
-        TODO("Not yet implemented")
+    override suspend fun insertUsers(users: List<User>) {
+        usersLocalDataSource.saveUsers(users)
     }
 
 
     override suspend fun searchUsers(search: String): Result<List<User>> {
-        TODO("Not yet implemented")
+        return Result.Success(usersLocalDataSource.searchUsers(search))
     }
 
     override suspend fun clearDatabase() {

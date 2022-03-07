@@ -28,8 +28,10 @@ class FakeUsersRepository : UsersRepository {
         TODO("Not yet implemented")
     }
 
-    override fun insertUsers(users: List<User>) {
-        TODO("Not yet implemented")
+    override suspend fun insertUsers(users: List<User>) {
+        users.forEachIndexed { key, user->
+            usersServiceData[key.toString()] = users[key]
+        }
     }
 
 

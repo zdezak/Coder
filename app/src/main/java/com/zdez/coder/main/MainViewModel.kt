@@ -8,9 +8,12 @@ import com.zdez.coder.data.Result.Success
 import com.zdez.coder.data.User
 import com.zdez.coder.data.source.UsersRepository
 import com.zdez.coder.people.Tabs
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val usersRepository: UsersRepository) : ViewModel() {
+class MainViewModel(private val usersRepository: UsersRepository, val dispatcher: CoroutineDispatcher = Dispatchers.Default) : ViewModel() {
     val tabs = Tabs().listTabs
     val isDataLoadingError = mutableStateOf<Boolean?>(null)
 

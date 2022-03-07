@@ -9,7 +9,7 @@ interface UsersRepository {
 
     suspend fun getUsersInDepartment(department: String, order: String): Result<List<User>>
 
-    fun insertUsers(users: List<User>)
+    suspend fun insertUsers(users: List<User>)
 
     suspend fun searchUsers(search: String): Result<List<User>>
 

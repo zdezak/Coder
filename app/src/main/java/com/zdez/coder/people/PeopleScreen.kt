@@ -2,6 +2,7 @@ package com.zdez.coder.people
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import com.zdez.coder.R
 import com.zdez.coder.ServiceLocator
+import com.zdez.coder.navigation.Screen
 
 @Composable
 fun PeopleScreen(navController: NavController) {
@@ -37,7 +39,7 @@ fun PeopleScreen(navController: NavController) {
     val viewModel = ViewModelProvider(
         LocalViewModelStoreOwner.current!!,
         viewModelFactory
-    ).get(PeopleViewModel::class.java)
+    )[PeopleViewModel::class.java]
 
     Scaffold(topBar = {
         TopAppBar(
@@ -118,29 +120,38 @@ fun PeopleScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                items(viewModel.users) { user ->
-                    Card {
+                if (viewModel.isDataLoadingError.value == true){
 
-                    }
-                    Row(modifier = Modifier.padding(16.dp)) {
-                        Image(
-                            painterResource(id = R.drawable.ic_launcher_background),
-                            //painter = rememberGlidePainter(user.avatarUrl),
-                            contentDescription = user.firstName + " " + user.lastName,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .border(1.dp, Color.Black, CircleShape)
-                        )
-                        Column() {
-                            Row() {
-                                Text(text = user.firstName)
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = user.lastName)
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = user.userTag)
+                    item { Text(text = "Error") }
+
+                }else{
+
+                    items(viewModel.users) { user ->
+                        Card {
+
+                        }
+                        Row(modifier = Modifier.padding(16.dp).clickable {
+                            navController.navigate(Screen.Profile.route+user.id)
+                        }) {
+                            Image(
+                                painterResource(id = R.drawable.ic_launcher_background),
+                                //painter = rememberGlidePainter(user.avatarUrl),
+                                contentDescription = user.firstName + " " + user.lastName,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .border(1.dp, Color.Black, CircleShape)
+                            )
+                            Column() {
+                                Row() {
+                                    Text(text = user.firstName)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(text = user.lastName)
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(text = user.userTag)
+                                }
+                                Text(text = user.department)
                             }
-                            Text(text = user.department)
                         }
                     }
                 }

@@ -17,19 +17,19 @@ object ServiceLocator {
     private var database: UserDatabase? = null
 
     @Volatile
-    var tasksRepository: UsersRepository? = null
+    var usersRepository: UsersRepository? = null
         @VisibleForTesting set
 
     fun provideUsersRepository(context: Context): UsersRepository {
         synchronized(this) {
-            return tasksRepository ?: createTasksRepository(context)
+            return usersRepository ?: createTasksRepository(context)
         }
     }
 
     private fun createTasksRepository(context: Context): UsersRepository {
         val newRepo =
             DefaultUsersRepository(UsersRemoteDataSource, createTaskLocalDataSource(context))
-        tasksRepository = newRepo
+        usersRepository = newRepo
         return newRepo
     }
 
@@ -41,7 +41,7 @@ object ServiceLocator {
     private fun createDataBase(context: Context): UserDatabase {
         val result = Room.databaseBuilder(
             context.applicationContext,
-            UserDatabase::class.java, "Tasks.db"
+            UserDatabase::class.java, "people"
         ).build()
         database = result
         return result
@@ -59,7 +59,7 @@ object ServiceLocator {
                 close()
             }
             database = null
-            tasksRepository = null
+            usersRepository = null
         }
     }
 }

@@ -9,7 +9,7 @@ class PeopleViewModelFactory(
 ) :
     ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PeopleViewModel::class.java)) {
             return PeopleViewModel(usersRepository) as T
         }
