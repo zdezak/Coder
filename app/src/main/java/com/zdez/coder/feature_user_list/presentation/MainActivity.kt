@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController,
                         startDestination = Screen.Loading.route) {
                         composable(Screen.Loading.route) { LoadingScreen(navController = navController) }
-                        composable(Screen.People.route) { UsersScreen(navController = navController) }
+                        composable(Screen.Users.route) { UsersScreen(navController = navController) }
                         composable(Screen.Profile.route + "/{id}", arguments = listOf(
                             navArgument("id") {
                                 type = NavType.StringType

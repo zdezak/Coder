@@ -1,6 +1,6 @@
 package com.zdez.coder.feature_user_list.presentation.util
 
-class Tabs {
+object Tabs {
     val listTabs = listOf(
         "all",
         "android",

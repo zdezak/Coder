@@ -4,7 +4,18 @@ import com.zdez.coder.feature_user_list.domain.model.User
 
 interface Repository {
 
-    suspend fun addUsers()
+    suspend fun addUsers(): List<User>
 
     suspend fun clearDatabase()
+
+    suspend fun getUserById(id: String): User
+
+    suspend fun getUsers(order: String): List<User>
+
+    suspend fun searchUsers(search: String): List<User>
+
+    suspend fun getUsersInDepartment(search: String, order: String): List<User>
+
+    suspend fun update(): List<User>
+
 }

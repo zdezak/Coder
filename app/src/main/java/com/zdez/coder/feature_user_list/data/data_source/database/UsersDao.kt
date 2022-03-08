@@ -10,27 +10,30 @@ import com.zdez.coder.feature_user_list.domain.model.User
 interface UsersDao {
 
     @Insert
-    suspend fun insertPeople(users: List<User>)
+    suspend fun insertUsers(users: List<User>)
 
     @Update
-    suspend fun update(users: List<User>)
+    suspend fun updateUsers(users: List<User>)
 
     @Query("SELECT * FROM users ORDER BY :order DESC")
-    suspend fun getAllPeople(order: String): List<User>
+    suspend fun getAllUsers(order: String): List<User>
 
     @Query("SELECT * FROM users WHERE department = :key ORDER BY :order DESC")
-    suspend fun getAllPeopleInDepartment(key: String, order: String): List<User>
+    suspend fun getAllUsersInDepartment(key: String, order: String): List<User>
 
     @Query("SELECT * FROM users WHERE firstName LIKE :search")
-    suspend fun getPeopleWithSimilarFirstName(search: String): List<User>
+    suspend fun getUsersWithSimilarFirstName(search: String): List<User>
 
     @Query("SELECT * FROM users WHERE lastName LIKE :search")
-    suspend fun getPeopleWithSimilarLastName(search: String): List<User>
+    suspend fun getUsersWithSimilarLastName(search: String): List<User>
 
     @Query("SELECT * FROM users WHERE userTag LIKE :search")
-    suspend fun getPeopleWithSimilarUserTag(search: String): List<User>
+    suspend fun getUsersWithSimilarUserTag(search: String): List<User>
 
     @Query("DELETE FROM users")
-    suspend fun clear()
+    suspend fun deleteAllUsers()
+
+    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
+    suspend fun getUserById(id: String): User
 
 }
