@@ -1,10 +1,11 @@
 package com.zdez.coder.feature_user_list.domain.repository
 
 import com.zdez.coder.feature_user_list.domain.model.User
+import com.zdez.coder.feature_user_list.domain.model.UsersData
 
 interface Repository {
 
-    suspend fun addUsers(): List<User>
+    suspend fun addUsers(): UsersData
 
     suspend fun clearDatabase()
 

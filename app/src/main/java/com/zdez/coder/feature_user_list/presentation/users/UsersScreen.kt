@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.zdez.coder.R
 import com.zdez.coder.feature_user_list.domain.util.OrderType
 import com.zdez.coder.feature_user_list.domain.util.UserOrder
+import com.zdez.coder.feature_user_list.presentation.users.components.UserItem
 import com.zdez.coder.feature_user_list.presentation.util.Screen
 import com.zdez.coder.feature_user_list.presentation.util.Tabs
 
@@ -92,7 +93,6 @@ fun UsersScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            //TODO Tabs
             ScrollableTabRow(selectedTabIndex = selectedTabIndex.value) {
                 Tabs.listTabs.forEachIndexed { index, tab ->
                     Tab(
@@ -115,32 +115,14 @@ fun UsersScreen(
                 horizontalAlignment = Alignment.Start
             ) {
                 items(viewModel.users) { user ->
-                    Row(modifier = Modifier
-                        .padding(16.dp)
-                        .clickable {
+                    UserItem(
+                        user = user,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
                             navController.navigate(Screen.Profile.route + user.id)
                         }
-                    ) {
-                        Image(
-                            painterResource(id = R.drawable.ic_launcher_background),
-                            //painter = rememberGlidePainter(user.avatarUrl),
-                            contentDescription = user.firstName + " " + user.lastName,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .border(1.dp, Color.Black, CircleShape)
-                        )
-                        Column {
-                            Row {
-                                Text(text = user.firstName)
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = user.lastName)
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = user.userTag)
-                            }
-                            Text(text = user.department)
-                        }
-                    }
+                    )
                 }
             }
             //TODO Snackbars

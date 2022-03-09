@@ -3,6 +3,7 @@ package com.zdez.coder.feature_user_list.data.repositori
 import com.zdez.coder.feature_user_list.data.data_source.database.UsersDao
 import com.zdez.coder.feature_user_list.data.data_source.network.RemoteData
 import com.zdez.coder.feature_user_list.domain.model.User
+import com.zdez.coder.feature_user_list.domain.model.UsersData
 import com.zdez.coder.feature_user_list.domain.repository.Repository
 
 class DefaultRepository(
@@ -10,11 +11,20 @@ class DefaultRepository(
     private val remoteData: RemoteData,
 ) : Repository {
 
-    override suspend fun addUsers(): List<User> {
-        //TODO Добавить обработку ошибок
-        val users = remoteData.getUser().body()!!.users
-        usersDao.insertUsers(users)
-        return users
+    override suspend fun addUsers(): UsersData {
+        val response = remoteData.getUser()
+        val usersData = UsersData(loading = true, data = emptyList(), error = null)
+        if (response.isSuccessful) {
+            usersData.data = response.body()?.users ?: emptyList()
+            usersData.loading = false
+        }
+        if (usersData.data.isEmpty()) {
+            usersData.error = UsersData.ErrorUserData.NetworkError
+        } else {
+            usersDao.insertUsers(usersData.data)
+        }
+
+        return usersData
     }
 
     override suspend fun clearDatabase() {
