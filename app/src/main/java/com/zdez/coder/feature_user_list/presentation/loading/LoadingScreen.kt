@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.zdez.coder.R
@@ -19,7 +20,6 @@ import com.zdez.coder.feature_user_list.presentation.util.Tabs
 @Composable
 fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hiltViewModel()) {
     val expanded = remember { mutableStateOf(false) }
-    val order = remember { mutableStateOf("firstName") }
     var textForSearch by remember { mutableStateOf("") }
     val selectedTabIndex = remember { mutableStateOf(0) }
 
@@ -30,13 +30,13 @@ fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hi
                     value = textForSearch,
                     onValueChange = { textForSearch = it },
                     modifier = Modifier.fillMaxWidth(1f),
-                    placeholder = { Text(text = "Введите имя, фамилию или тег") }
+                    placeholder = { Text(text = stringResource(R.string.discription_searchfield)) }
                 )
             },
             navigationIcon = {
                 Icon(
                     Icons.Filled.Search,
-                    contentDescription = "Search textField",
+                    contentDescription = stringResource(R.string.search_textfield),
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
                         .fillMaxWidth(0.90f))
@@ -45,22 +45,21 @@ fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hi
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
                     IconButton(onClick = { expanded.value = true }) {
                         Icon(painterResource(id = R.drawable.ic_search_icon),
-                            contentDescription = "Sorting")
+                            contentDescription = stringResource(R.string.sorting)
+                        )
                     }
                     DropdownMenu(expanded = expanded.value,
                         onDismissRequest = { expanded.value = false }) {
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = "firstName"
                         }) {
-                            Text(text = "По алфавиту")
+                            Text(text = stringResource(R.string.sorting_by_alphabet))
                         }
                         DropdownMenuItem(onClick = {
                             expanded.value = false
-                            order.value = "birthday"
 
                         }) {
-                            Text(text = "По дате рождения")
+                            Text(text = stringResource(R.string.sotring_by_birthday))
                         }
                     }
                 }
@@ -73,7 +72,7 @@ fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hi
                 .fillMaxHeight()
         ) {
             ScrollableTabRow(selectedTabIndex = selectedTabIndex.value) {
-                Tabs.listTabs.forEachIndexed() { index, tab ->
+                Tabs.listTabs.forEachIndexed { index, tab ->
                     Tab(
                         selected = index == selectedTabIndex.value,
                         onClick = { selectedTabIndex.value = index },
@@ -96,14 +95,14 @@ fun ErrorScreen(viewModel: LoadingViewModel) {
     Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(Icons.Filled.Warning, contentDescription = "Warning")
-        Text(text = "Какой-то сверхразум все сломал")
-        Text(text = "Постараемся быстро починить")
+        Image(Icons.Filled.Warning, contentDescription = stringResource(R.string.warning))
+        Text(text = stringResource(R.string.discription_error))
+        Text(text = stringResource(R.string.promise_to_fix))
         TextButton(onClick = { viewModel.loadingUsers() },
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)) {
-            Text(text = "Попробовать снова")
+            Text(text = stringResource(R.string.try_again))
         }
     }
 }

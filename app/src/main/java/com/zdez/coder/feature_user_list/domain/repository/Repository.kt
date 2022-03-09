@@ -10,11 +10,11 @@ interface Repository {
 
     suspend fun getUserById(id: String): User
 
-    suspend fun getUsers(order: String): List<User>
+    suspend fun getUsers(): List<User>
 
     suspend fun searchUsers(search: String): List<User>
 
-    suspend fun getUsersInDepartment(search: String, order: String): List<User>
+    suspend fun getUsersInDepartment(search: String): List<User>
 
     suspend fun update(): List<User>
 

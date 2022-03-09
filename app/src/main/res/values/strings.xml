@@ -3,4 +3,13 @@
     <string name="Icon_phone">Icon phone</string>
     <string name="icon_star">Icon star</string>
     <string name="arrow_back_icon">"Arrowback Icon "</string>
+    <string name="sorting_by_alphabet">По алфавиту</string>
+    <string name="sotring_by_birthday">По дате рождения</string>
+    <string name="sorting">Сортировка</string>
+    <string name="search_textfield">Поисковая строка</string>
+    <string name="discription_searchfield">Введите имя, фамилию или тег</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="promise_to_fix">Постараемся быстро починить</string>
+    <string name="discription_error">Какой-то сверхразум все сломал</string>
+    <string name="warning">Внимание!</string>
 </resources>

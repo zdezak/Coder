@@ -15,11 +15,11 @@ interface UsersDao {
     @Update
     suspend fun updateUsers(users: List<User>)
 
-    @Query("SELECT * FROM users ORDER BY :order DESC")
-    suspend fun getAllUsers(order: String): List<User>
+    @Query("SELECT * FROM users ORDER BY firstName DESC")
+    suspend fun getAllUsers(): List<User>
 
-    @Query("SELECT * FROM users WHERE department = :key ORDER BY :order DESC")
-    suspend fun getAllUsersInDepartment(key: String, order: String): List<User>
+    @Query("SELECT * FROM users WHERE department = :key ORDER BY firstName DESC")
+    suspend fun getAllUsersInDepartment(key: String): List<User>
 
     @Query("SELECT * FROM users WHERE firstName LIKE :search")
     suspend fun getUsersWithSimilarFirstName(search: String): List<User>

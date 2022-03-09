@@ -25,8 +25,8 @@ class DefaultRepository(
         return usersDao.getUserById(id)
     }
 
-    override suspend fun getUsers(order: String): List<User> {
-        return usersDao.getAllUsers(order = order)
+    override suspend fun getUsers(): List<User> {
+        return usersDao.getAllUsers()
     }
 
     override suspend fun searchUsers(search: String): List<User> {
@@ -37,8 +37,8 @@ class DefaultRepository(
         return resultList
     }
 
-    override suspend fun getUsersInDepartment(search: String, order: String): List<User> {
-        return usersDao.getAllUsersInDepartment(search, order)
+    override suspend fun getUsersInDepartment(search: String): List<User> {
+        return usersDao.getAllUsersInDepartment(search)
     }
 
     override suspend fun update(): List<User> {

@@ -2,6 +2,7 @@ package com.zdez.coder.feature_user_list.presentation.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.CircleShape
@@ -45,6 +46,9 @@ fun ProfileScreen(
                 modifier = Modifier
                     .clip(CircleShape)
                     .border(1.dp, Color.Black, CircleShape)
+                    .clickable {
+                        navController.navigateUp()
+                    }
             )
             // Name and lastname and tag
             Row {
