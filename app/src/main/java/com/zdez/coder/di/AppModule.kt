@@ -7,7 +7,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.zdez.coder.feature_user_list.data.data_source.database.UsersDatabase
 import com.zdez.coder.feature_user_list.data.data_source.network.ApiService
 import com.zdez.coder.feature_user_list.data.data_source.network.RemoteData
-import com.zdez.coder.feature_user_list.data.repositori.DefaultRepository
+import com.zdez.coder.feature_user_list.data.repository.DefaultRepository
 import com.zdez.coder.feature_user_list.domain.repository.Repository
 import dagger.Module
 import dagger.Provides

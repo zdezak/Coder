@@ -1,4 +1,4 @@
-package com.zdez.coder.feature_user_list.data.repositori
+package com.zdez.coder.feature_user_list.data.repository
 
 import com.zdez.coder.feature_user_list.data.data_source.database.UsersDao
 import com.zdez.coder.feature_user_list.data.data_source.network.RemoteData
