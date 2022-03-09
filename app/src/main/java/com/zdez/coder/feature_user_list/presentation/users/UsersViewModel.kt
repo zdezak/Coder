@@ -27,15 +27,15 @@ class UsersViewModel @Inject constructor(val repository: Repository) : ViewModel
     }
 
     fun sortBy(userOrder: UserOrder) {
-        when(userOrder.orderType) {
+        when (userOrder.orderType) {
             is OrderType.Ascending -> {
-                when(userOrder) {
+                when (userOrder) {
                     is UserOrder.FirstName -> users.sortedBy { it.firstName.lowercase() }
                     is UserOrder.Birthday -> users.sortedBy { it.birthday }
                 }
             }
             is OrderType.Descending -> {
-                when(userOrder) {
+                when (userOrder) {
                     is UserOrder.FirstName -> users.sortedByDescending { it.firstName.lowercase() }
                     is UserOrder.Birthday -> users.sortedByDescending { it.birthday }
                 }

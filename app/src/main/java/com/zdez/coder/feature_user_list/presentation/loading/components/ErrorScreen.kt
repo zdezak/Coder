@@ -18,16 +18,20 @@ import com.zdez.coder.feature_user_list.presentation.loading.LoadingViewModel
 
 @Composable
 fun ErrorScreen(viewModel: LoadingViewModel) {
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Image(Icons.Filled.Warning, contentDescription = stringResource(R.string.warning))
         Text(text = stringResource(R.string.discription_error))
         Text(text = stringResource(R.string.promise_to_fix))
-        TextButton(onClick = { viewModel.loadingUsers() },
+        TextButton(
+            onClick = { viewModel.loadingUsers() },
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)) {
+                .align(Alignment.CenterHorizontally)
+        ) {
             Text(text = stringResource(R.string.try_again))
         }
     }

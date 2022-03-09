@@ -34,12 +34,14 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
-    val user = remember{mutableStateOf(viewModel.getUser(id))}
+    val user = remember { mutableStateOf(viewModel.getUser(id)) }
     Scaffold {
         Column {
             //return back
-            Icon(Icons.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.arrow_back_icon))
+            Icon(
+                Icons.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.arrow_back_icon)
+            )
             //Image
             Image(
                 painterResource(id = R.drawable.ic_launcher_background),

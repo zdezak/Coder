@@ -26,8 +26,10 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController,
-                        startDestination = Screen.Loading.route) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Loading.route
+                    ) {
                         composable(Screen.Loading.route) { LoadingScreen(navController = navController) }
                         composable(Screen.Users.route) { UsersScreen(navController = navController) }
                         composable(Screen.Profile.route + "/{id}", arguments = listOf(
@@ -35,8 +37,10 @@ class MainActivity : ComponentActivity() {
                                 type = NavType.StringType
                             }
                         )) { entry ->
-                            ProfileScreen(id = entry.arguments!!.getString("id")!!,
-                                navController = navController)
+                            ProfileScreen(
+                                id = entry.arguments!!.getString("id")!!,
+                                navController = navController
+                            )
                         }
                     }
                 }
