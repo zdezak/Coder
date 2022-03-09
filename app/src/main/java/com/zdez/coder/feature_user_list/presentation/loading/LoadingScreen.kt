@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -38,4 +39,8 @@ fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hi
             }
         }
     }
+    LaunchedEffect(key1 = Unit, block = {
+        viewModel.clearDatabase()
+        viewModel.loadingUsers()
+    })
 }

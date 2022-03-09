@@ -19,4 +19,10 @@ class LoadingViewModel @Inject constructor(val repository: Repository) : ViewMod
         }
     }
 
+    fun clearDatabase() {
+        viewModelScope.launch {
+            repository.clearDatabase()
+        }
+    }
+
 }
