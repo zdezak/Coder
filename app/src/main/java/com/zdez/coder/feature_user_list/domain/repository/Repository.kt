@@ -8,7 +8,7 @@ interface Repository {
 
     suspend fun clearDatabase()
 
-    suspend fun getUserById(id: String): User
+    fun getUserById(id: String): User
 
     suspend fun getUsers(): List<User>
 

@@ -14,6 +14,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,6 +34,7 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+    val user = remember{mutableStateOf(viewModel.getUser(id))}
     Scaffold {
         Column {
             //return back
@@ -41,7 +44,7 @@ fun ProfileScreen(
             Image(
                 painterResource(id = R.drawable.ic_launcher_background),
                 //painter = rememberGlidePainter(user.avatarUrl),
-                contentDescription = viewModel.user.firstName + " " + viewModel.user.lastName,
+                contentDescription = user.value.firstName + " " + user.value.lastName,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(CircleShape)
@@ -52,21 +55,21 @@ fun ProfileScreen(
             )
             // Name and lastname and tag
             Row {
-                Text(text = viewModel.user.firstName + " " + viewModel.user.lastName)
-                Text(text = viewModel.user.userTag)
+                Text(text = user.value.firstName + " " + user.value.lastName)
+                Text(text = user.value.userTag)
             }
             //department
-            Text(text = viewModel.user.department)
+            Text(text = user.value.department)
             //icon Star next Birthday and old age
             Row {
                 Icon(Icons.Filled.Star, contentDescription = stringResource(R.string.icon_star))
-                Text(text = viewModel.user.birthday)
+                Text(text = user.value.birthday)
                 Text(text = "24 Old")
             }
             //phone number
             Row {
                 Icon(Icons.Filled.Phone, contentDescription = stringResource(R.string.Icon_phone))
-                Text(text = viewModel.user.phone)
+                Text(text = user.value.phone)
             }
         }
     }

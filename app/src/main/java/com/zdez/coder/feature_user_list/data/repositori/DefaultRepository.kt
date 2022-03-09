@@ -21,7 +21,7 @@ class DefaultRepository(
         usersDao.deleteAllUsers()
     }
 
-    override suspend fun getUserById(id: String): User {
+    override fun getUserById(id: String): User {
         return usersDao.getUserById(id)
     }
 

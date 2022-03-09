@@ -34,6 +34,6 @@ interface UsersDao {
     suspend fun deleteAllUsers()
 
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
-    suspend fun getUserById(id: String): User
+    fun getUserById(id: String): User
 
 }
