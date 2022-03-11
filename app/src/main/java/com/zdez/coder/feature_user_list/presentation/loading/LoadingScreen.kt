@@ -8,8 +8,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.zdez.coder.core.util.TestTags
 import com.zdez.coder.feature_user_list.domain.model.UsersData
 import com.zdez.coder.feature_user_list.presentation.loading.components.ErrorScreen
 import com.zdez.coder.feature_user_list.presentation.loading.components.LoadingTabsRow
@@ -32,7 +34,7 @@ fun LoadingScreen(navController: NavController, viewModel: LoadingViewModel = hi
             when (viewModel.users.value.error) {
                 UsersData.ErrorUserData.NetworkError -> ErrorScreen(viewModel)
                 else -> if (viewModel.users.value.loading) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.testTag(TestTags.CIRCULAR_PROGRESS_INDICATOR))
                 } else {
                     navController.navigate(Screen.Users.route)
                 }

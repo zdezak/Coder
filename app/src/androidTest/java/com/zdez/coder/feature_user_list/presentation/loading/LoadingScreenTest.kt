@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.AppTheme
+import com.zdez.coder.core.util.TestTags
 import com.zdez.coder.di.AppModule
 import com.zdez.coder.feature_user_list.presentation.MainActivity
 import com.zdez.coder.feature_user_list.presentation.util.Screen
@@ -52,8 +53,6 @@ class LoadingScreenTest{
 
     @Test
     fun clickToggleOrderSection_isVisible() {
-        composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()
-        composeRule.onNodeWithContentDescription("Sort").performClick()
-        composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertIsDisplayed()
+        composeRule.onNodeWithTag(TestTags.CIRCULAR_PROGRESS_INDICATOR).assertIsDisplayed()
     }
 }
