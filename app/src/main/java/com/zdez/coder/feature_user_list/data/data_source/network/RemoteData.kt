@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class RemoteData @Inject constructor(private val apiService: ApiService) {
 
-    fun getUser(): Response<NetworkResponse> = apiService.getUsers()
+    suspend fun getUser(): Response<NetworkResponse> = apiService.getUsers()
 
 }
