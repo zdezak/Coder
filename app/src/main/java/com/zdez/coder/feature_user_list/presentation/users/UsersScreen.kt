@@ -1,15 +1,18 @@
 package com.zdez.coder.feature_user_list.presentation.users
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.zdez.coder.feature_user_list.domain.util.OrderType
@@ -25,17 +28,56 @@ fun UsersScreen(
     userOrder: UserOrder = UserOrder.FirstName(OrderType.Ascending),
     viewModel: UsersViewModel = hiltViewModel(),
 ) {
-
-
+    val expanded = remember { mutableStateOf(false) }
+    var textForSearch by remember { mutableStateOf("") }
     Scaffold(topBar = {
-        var textForSearch by remember { mutableStateOf("") }
-        DefaultTopAppBar(value = textForSearch, readOnly = false, onValueChange = {
-            textForSearch = it
-            viewModel.fieldSearch(textForSearch, userOrder)
-        },
-            sorting = {
-                viewModel.sortBy(UserOrder.FirstName(OrderType.Ascending))
-            })
+        TopAppBar(
+            title = {
+                TextField(
+                    value = textForSearch,
+                    onValueChange = {
+                        textForSearch = it
+                        viewModel.fieldSearch(textForSearch, userOrder)
+                    },
+                    modifier = Modifier.fillMaxWidth(1f),
+                    placeholder = { Text(text = stringResource(com.zdez.coder.R.string.discription_searchfield)) }
+                )
+            },
+            navigationIcon = {
+                Icon(
+                    Icons.Filled.Search,
+                    contentDescription = stringResource(com.zdez.coder.R.string.search_textfield),
+                    modifier = Modifier
+                        .wrapContentSize(Alignment.TopStart)
+                        .fillMaxWidth(0.90f)
+                )
+            },
+            actions = {
+                Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(
+                            painterResource(id = com.zdez.coder.R.drawable.ic_search_icon),
+                            contentDescription = stringResource(com.zdez.coder.R.string.sorting)
+                        )
+                    }
+                    DropdownMenu(expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false }) {
+                        DropdownMenuItem(onClick = {
+                            expanded.value = false
+                            viewModel.sortBy(UserOrder.FirstName(OrderType.Ascending))
+                        }) {
+                            Text(text = stringResource(com.zdez.coder.R.string.sorting_by_alphabet))
+                        }
+                        DropdownMenuItem(onClick = {
+                            expanded.value = false
+                            viewModel.sortBy(UserOrder.Birthday(OrderType.Descending))
+                        }) {
+                            Text(text = stringResource(com.zdez.coder.R.string.sotring_by_birthday))
+                        }
+                    }
+                }
+            }
+        )
     }
     ) {
         Column(
