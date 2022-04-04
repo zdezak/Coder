@@ -13,13 +13,17 @@ import javax.inject.Inject
 class LoadingViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
     var users = mutableStateOf(UsersData(loading = true, data = listOf(), error = null))
+    init {
+        loadingUsers()
+    }
     fun loadingUsers() {
         viewModelScope.launch {
+            clearDatabase()
             users.value = repository.addUsers()
         }
     }
 
-    fun clearDatabase() {
+    private fun clearDatabase() {
         viewModelScope.launch {
             repository.clearDatabase()
         }

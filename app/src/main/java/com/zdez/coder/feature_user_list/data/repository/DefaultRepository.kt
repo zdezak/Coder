@@ -16,14 +16,13 @@ class DefaultRepository(
         val usersData = UsersData(loading = true, data = emptyList(), error = null)
         if (response.isSuccessful) {
             usersData.data = response.body()?.users ?: emptyList()
-            usersData.loading = false
         }
         if (usersData.data.isEmpty()) {
             usersData.error = UsersData.ErrorUserData.NetworkError
         } else {
             usersDao.insertUsers(usersData.data)
         }
-
+        usersData.loading = false
         return usersData
     }
 
